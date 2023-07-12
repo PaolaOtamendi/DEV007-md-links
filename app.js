@@ -1,4 +1,4 @@
-import { routeExists, routeAbsolute, isDirectory, getMdExtension, readFiles, getLinks} from "./index.js";
+import { routeExists, routeAbsolute, isDirectory, getMdExtension, readFiles, getLinks, linksTrue, linksFalse} from "./index.js";
 import chalk from 'chalk'
 
 /*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
@@ -27,10 +27,22 @@ const mdlinks = () => {
             console.log(result, 16);
             const links = getLinks(result);
             resolve(result); 
-            if(!isOptionStats && !isOptionValidate){
-                links.forEach((link) => {
-                console.log(document + " " + link.href + " " + link.text, 41)
-                })
+            if(isOptionValidate && !isOptionStats){
+                linksTrue(links);//funcion
+                console.log('Stats: ', isOptionStats)
+                console.log('Validate: ', isOptionValidate)
+            } 
+            if (isOptionValidate && isOptionStats){
+                console.log('ejecuta validate y states');
+                console.log('Stats: ', isOptionStats)
+                console.log('Validate: ', isOptionValidate)
+                linksTrue(links);//funcion                
+            }
+            if (isOptionStats && !isOptionValidate){
+                console.log('ejecuta states');
+                console.log('Stats: ', isOptionStats)
+                console.log('Validate: ', isOptionValidate)
+                linksFalse(links);//funcion
             }
             })
         .catch((error) => {

@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
+import { log } from 'console';
 
 /*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
 export const routeExists = (route) => { // parametro
@@ -75,22 +76,56 @@ export const readFiles = (arrayFiles) => {
 };
 
 /*---------------------------FUNCION PARA LEER LOS LINKS DEL DOCUMENTO-----------------------------------*/
-export const getLinks = (array) => {
-  const prueba = []
-  const route = path.resolve()
-  console.log(route, 20);
-  array.forEach((elem)=>{
-    if(elem.match(/[^!]\[.+?\]\(.+?\)/g)){
-      let linkMatch = elem.match(/[^!]\[.+?\]\(.+?\)/g)
-      prueba.push({
-        href: linkMatch[0].match(/https*?:([^"')\s]+)/)[0],
-        text: linkMatch[0].match(/\[(.*)\]/)[1],
-        file: route
-      })
-    }
-  })
-  // console.table(prueba);
-  //console.log(prueba);
-  return prueba;
+
+  export function getLinks(array) {
+    const links = [];
+    const regex = /\[.+?\]\(.+?\)/g;
+    array.forEach((link) => {
+      const linkMatches = link.match(regex);
+      if (linkMatches) {
+        links.push(...linkMatches);
+      }
+    });
+    // console.table(links);
+    return links;
   }
 
+
+  // VERIFICAR EL LINK ES TRUE
+export function linksTrue(links) {
+  const trueLinks = [];
+  links.forEach((link) => {
+    let ruta = path.resolve();
+    if (link.match(/\[.+?\]\(.+?\)/g)) {
+      let linkTrue = link.match(/\[.+?\]\(.+?\)/g);
+      trueLinks.push({
+        href: linkTrue[0].match(/https*?:([^"')\s]+)/)[0],
+        text: linkTrue[0].match(/\[(.*?)\]/)[1],
+        file: ruta,
+        ok: 'ok',
+        HTTP: 'validate'
+      });
+    }
+  });
+  console.log(trueLinks);
+  return trueLinks;
+}
+
+
+// VERIFICAR EL LINK ES FALSE
+export function linksFalse(links) {
+  const falseLinks = [];
+  links.forEach((link) => {
+    let ruta = path.resolve();
+    if (link.match(/\[.+?\]\(.+?\)/g)) {
+      let linkFalse = link.match(/\[.+?\]\(.+?\)/g);
+      falseLinks.push({
+        href: linkFalse[0].match(/https*?:([^"')\s]+)/)[0],
+        text: linkFalse[0].match(/\[(.*?)\]/)[1],
+        file: ruta
+      });
+    }
+  });
+  console.log(falseLinks);
+  return falseLinks;
+}
