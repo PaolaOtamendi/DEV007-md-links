@@ -5,35 +5,24 @@ import chalk from 'chalk'
 /*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
 export const routeExists = (route) => { // parametro
   if(fs.existsSync(route)){
-    console.log(chalk.bold.green("El archivo EXISTE!"));
+    console.log(chalk.bold.cyan("El archivo EXISTE!"), 11);
     return true;
     }else{
-    console.log(chalk.bold.red("El archivo NO EXISTE!"));
+    console.log(chalk.bold.red("El archivo NO EXISTE!"), 12);
     return false;
     }
 };
 
-/*export const mdlinks = (path, options) => { 
-  // identificar si mi ruta existe
-  return new Promise((resolve, reject) =>{
-    if(fs.existsSync(path)){
-
-    }
-    else{
-      reject(chalk.bold.red("La ruta NO EXISTE!"))
-      return false;
-    }
-  })
-}*/
 
 /*---------------------------FUNCION PARA CONVERTIR LA RUTA EN ABSOLUTA------------------------------*/
 export const routeAbsolute = (route) => {
-  if(path.isAbsolute(route)===true){ // Verifica si la ruta es absoluta
+  if(!path.isAbsolute(route)){ // Verifica si la ruta es absoluta ! ponerlo 
+    //console.log( path.resolve(route));
+    return path.resolve(route)
+    //return route
+  }else{
     // console.log(route);
     return route
-  }else{
-    // console.log( path.resolve(route));
-    return path.resolve(route)
   }
 };
 
@@ -66,7 +55,7 @@ export function getMdExtension(arrayFiles) {
   return arrayFiles.filter(file => path.extname(file) === '.md');
 }
 
-/*---------------------------FUNCION PARA lLEER EL DOCUMENTO------------------------------*/
+/*---------------------------FUNCION PARA LEER EL DOCUMENTO-----------------------------------------------*/
 export const readFiles = (arrayFiles) => {
   const allFiles = [];
   arrayFiles.forEach((file) => {
@@ -84,4 +73,24 @@ export const readFiles = (arrayFiles) => {
   });
   return Promise.all(allFiles);
 };
+
+/*---------------------------FUNCION PARA LEER LOS LINKS DEL DOCUMENTO-----------------------------------*/
+export const getLinks = (array) => {
+  const prueba = []
+  const route = path.resolve()
+  console.log(route, 20);
+  array.forEach((elem)=>{
+    if(elem.match(/[^!]\[.+?\]\(.+?\)/g)){
+      let linkMatch = elem.match(/[^!]\[.+?\]\(.+?\)/g)
+      prueba.push({
+        href: linkMatch[0].match(/https*?:([^"')\s]+)/)[0],
+        text: linkMatch[0].match(/\[(.*)\]/)[1],
+        file: route
+      })
+    }
+  })
+  // console.table(prueba);
+  //console.log(prueba);
+  return prueba;
+  }
 

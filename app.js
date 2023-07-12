@@ -1,49 +1,38 @@
-import { routeExists, routeAbsolute, isDirectory, getMdExtension, readFiles} from "./index.js";
+import { routeExists, routeAbsolute, isDirectory, getMdExtension, readFiles, getLinks} from "./index.js";
 import chalk from 'chalk'
 
 /*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
 const route = process.argv[2];
 const isExists = routeExists(route)// argumento
 
-/*export const mdlinks = () =>{
-return new Promise((resolve, reject) => {
-if(isExists){
-    const isAbsolute = routeAbsolute(route); // ruta resuelta is path absolute
-    console.log(chalk.underline.blueBright('Ruta absoluta: ' + isAbsolute));
-    const archivos = isDirectory(route);
-    console.log(archivos, 13);
-    const filesMd = getMdExtension(archivos);
-    console.log(filesMd, 15);
-    readFile(document)
-    .then((result) =>{
-        console.log(result);
-        resolve(result);
-    });
-    .catch((error) =>{
-        console.error(error);
-        reject(error);
-    });
-    } else {
-        console.error('ERROR');
-    reject(console.error(chalk.bold.red("Ruta no encontrada, validar la ruta")));
-}
-});
-};*/
+const isOptionValidate = process.argv.includes('--validate');
+console.log(isOptionValidate)
+
+const isOptionStats = process.argv.includes('--stats');
+console.log(isOptionStats)
+
 
 const mdlinks = () => {
     return new Promise((resolve, reject) => {
     if (isExists) {
         const absolute = routeAbsolute(route);
-        console.log(chalk.bold.bgGreen(absolute));
+        console.log(chalk.bold.bgMagenta(absolute), 13);
         const archivos = isDirectory(route);
-        console.log(archivos, 12);
+        console.log(archivos, 14);
         const filesMd = getMdExtension(archivos);
         console.log(filesMd, 15);
         readFiles(filesMd)
         .then((result) => {
+            //getLinks(result)
             console.log(result, 16);
+            const links = getLinks(result);
             resolve(result); 
-        })
+            if(!isOptionStats && !isOptionValidate){
+                links.forEach((link) => {
+                console.log(document + " " + link.href + " " + link.text, 41)
+                })
+            }
+            })
         .catch((error) => {
             console.error(error, 17);
             reject(error); 
@@ -57,28 +46,6 @@ const mdlinks = () => {
 
 mdlinks(route);
 
-/*export const mdlinks = (path, options) => { 
-  // identificar si mi ruta existe
-return new Promise((resolve, reject) =>{
-    if(fs.existsSync(path)){
-
-    }
-    else{
-    reject(chalk.bold.red("La ruta NO EXISTE!"))
-    return false;
-    }
-})
-}*/
-
-// const mdLinks2 = () => {
-//     return new Promise((resolve, reject) => {
-//     })
-// }
-
-/*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
-/*mdlinks(route).then(()=>{}).catch((error) =>{
-    console.log(error)
-});*/
 
 
 
