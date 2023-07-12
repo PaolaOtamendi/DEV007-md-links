@@ -1,39 +1,29 @@
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
+import { log } from 'console';
 
 /*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
 export const routeExists = (route) => { // parametro
   if(fs.existsSync(route)){
-    console.log(chalk.bold.green("El archivo EXISTE!"));
+    console.log(chalk.bold.cyan("El archivo EXISTE!"), 11);
     return true;
     }else{
-    console.log(chalk.bold.red("El archivo NO EXISTE!"));
+    console.log(chalk.bold.red("El archivo NO EXISTE!"), 12);
     return false;
     }
 };
 
-/*export const mdlinks = (path, options) => { 
-  // identificar si mi ruta existe
-  return new Promise((resolve, reject) =>{
-    if(fs.existsSync(path)){
-
-    }
-    else{
-      reject(chalk.bold.red("La ruta NO EXISTE!"))
-      return false;
-    }
-  })
-}*/
 
 /*---------------------------FUNCION PARA CONVERTIR LA RUTA EN ABSOLUTA------------------------------*/
 export const routeAbsolute = (route) => {
-  if(path.isAbsolute(route)===true){ // Verifica si la ruta es absoluta
+  if(!path.isAbsolute(route)){ // Verifica si la ruta es absoluta ! ponerlo 
+    //console.log( path.resolve(route));
+    return path.resolve(route)
+    //return route
+  }else{
     // console.log(route);
     return route
-  }else{
-    // console.log( path.resolve(route));
-    return path.resolve(route)
   }
 };
 
@@ -66,7 +56,7 @@ export function getMdExtension(arrayFiles) {
   return arrayFiles.filter(file => path.extname(file) === '.md');
 }
 
-/*---------------------------FUNCION PARA lLEER EL DOCUMENTO------------------------------*/
+/*---------------------------FUNCION PARA LEER EL DOCUMENTO-----------------------------------------------*/
 export const readFiles = (arrayFiles) => {
   const allFiles = [];
   arrayFiles.forEach((file) => {
@@ -85,3 +75,57 @@ export const readFiles = (arrayFiles) => {
   return Promise.all(allFiles);
 };
 
+/*---------------------------FUNCION PARA LEER LOS LINKS DEL DOCUMENTO-----------------------------------*/
+
+  export function getLinks(array) {
+    const links = [];
+    const regex = /\[.+?\]\(.+?\)/g;
+    array.forEach((link) => {
+      const linkMatches = link.match(regex);
+      if (linkMatches) {
+        links.push(...linkMatches);
+      }
+    });
+    // console.table(links);
+    return links;
+  }
+
+
+  // VERIFICAR EL LINK ES TRUE
+export function linksTrue(links) {
+  const trueLinks = [];
+  links.forEach((link) => {
+    let ruta = path.resolve();
+    if (link.match(/\[.+?\]\(.+?\)/g)) {
+      let linkTrue = link.match(/\[.+?\]\(.+?\)/g);
+      trueLinks.push({
+        href: linkTrue[0].match(/https*?:([^"')\s]+)/)[0],
+        text: linkTrue[0].match(/\[(.*?)\]/)[1],
+        file: ruta,
+        ok: 'ok',
+        HTTP: 'validate'
+      });
+    }
+  });
+  console.log(trueLinks);
+  return trueLinks;
+}
+
+
+// VERIFICAR EL LINK ES FALSE
+export function linksFalse(links) {
+  const falseLinks = [];
+  links.forEach((link) => {
+    let ruta = path.resolve();
+    if (link.match(/\[.+?\]\(.+?\)/g)) {
+      let linkFalse = link.match(/\[.+?\]\(.+?\)/g);
+      falseLinks.push({
+        href: linkFalse[0].match(/https*?:([^"')\s]+)/)[0],
+        text: linkFalse[0].match(/\[(.*?)\]/)[1],
+        file: ruta
+      });
+    }
+  });
+  console.log(falseLinks);
+  return falseLinks;
+}
