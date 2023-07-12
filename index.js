@@ -1,14 +1,9 @@
-import fs, { fstatSync } from 'fs'
+import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
 
-//module.exports = () => {
-  // ...
-//};
-//Desde este archivo se pueden exportar las funciones
-
 /*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
-export const routeExists = (route) => { // parametro console.log(chalk.bold.bgRed('Es una carpeta'));background
+export const routeExists = (route) => { // parametro
   if(fs.existsSync(route)){
     console.log(chalk.bold.green("El archivo EXISTE!"));
     return true;
@@ -18,7 +13,7 @@ export const routeExists = (route) => { // parametro console.log(chalk.bold.bgRe
     }
 };
 
-/*export const mdlinks = (path, options) => {
+/*export const mdlinks = (path, options) => { 
   // identificar si mi ruta existe
   return new Promise((resolve, reject) =>{
     if(fs.existsSync(path)){
@@ -33,50 +28,60 @@ export const routeExists = (route) => { // parametro console.log(chalk.bold.bgRe
 
 /*---------------------------FUNCION PARA CONVERTIR LA RUTA EN ABSOLUTA------------------------------*/
 export const routeAbsolute = (route) => {
-  if(path.isAbsolute(route)===true){
+  if(path.isAbsolute(route)===true){ // Verifica si la ruta es absoluta
     // console.log(route);
     return route
   }else{
-    //console.log( path.resolve(route));
+    // console.log( path.resolve(route));
     return path.resolve(route)
   }
 };
 
-/*---------------------------FUNCION PARA VALIDAD LA RUTA ES UN DIRECTORIO------------------------------*/
+/*---------------------------FUNCION PARA VALIDAR LA RUTA ES UN DIRECTORIO------------------------------*/
 
-export const isDirectory = (route) =>{
-  fs.stat(route, (err, stats) =>{
-  if(!err){
-    if(stats.isFile()){
-      console.log(chalk.underline.bgCyanBright('Es un documento? ' + stats.isFile()));
+export const isDirectory = (route) => {
+  let arrayFiles = [];              // Creamos un array vacio donde vamos a pasar las rutas
+  const stats = fs.statSync(route); 
+    if(stats.isFile()){             // Verificmaos si la ruta es un documento
+      arrayFiles.push(route);
     }
     else if(stats.isDirectory){
-      console.log(chalk.underline.bgMagentaBright('Es un directorio? ' + stats.isDirectory()));
-      let files = [];
-      fs.readdir(route, (err, result) =>{
-        if(err){
-          console.error(err)
-          throw Error(err)
+      const files = fs.readdirSync(route, "utf-8"); // Vaciamos la ruta en la constante files
+      files.forEach((file) =>{  // Recorremos la constante
+        const newRoute = path.join(route, file); // Unimos la ruta ya encontrada con la nueva ruta
+        const statsNew = fs.statSync(newRoute);
+        if(statsNew.isFile()){
+          arrayFiles.push(newRoute);
         }
-        files = result
-        console.log(result);
+        else if(statsNew.isDirectory()){
+          arrayFiles = arrayFiles.concat(isDirectory(newRoute));
+        }
       });
     }
+    return arrayFiles;
   }
-  else{
-    throw err;
-  }
-  });
+
+/*---------------------------FUNCION PARA fILTRAR LOS DOCUMENTO EXTENSION MD------------------------------*/
+export function getMdExtension(arrayFiles) {
+  return arrayFiles.filter(file => path.extname(file) === '.md');
 }
 
-/*---------------------------FUNCION PARA VALIDAD LA RUTA ES UN DIRECTORIO------------------------------*/
-/*export function fileOrDir(file) {
-  fs.stat(file, (error, Stats) => {
-    if (error) {
-      console.warn(chalk.bold.red("No es un archivo"))
-    } else {
-      console.log(Stats.isFile());
-      console.log('No es un archivo')
-    }
+/*---------------------------FUNCION PARA lLEER EL DOCUMENTO------------------------------*/
+export const readFiles = (arrayFiles) => {
+  const allFiles = [];
+  arrayFiles.forEach((file) => {
+    allFiles.push(
+    new Promise((resolve, reject) => {
+    fs.readFile(file, 'utf-8', (error, data) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(data);
+      }
+    });
+  })
+  );
   });
-  }*/
+  return Promise.all(allFiles);
+};
+
