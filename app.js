@@ -1,4 +1,4 @@
-import { routeExists, routeAbsolute, isDirectory, getMdExtension, readFiles, getLinks, linksTrue, linksFalse} from "./index.js";
+import { routeExists, routeAbsolute, isDirectory, getMdExtension, readFiles, getLinks, linksFalse} from "./index.js";
 import chalk from 'chalk'
 
 /*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
@@ -19,10 +19,8 @@ export const mdlinks = (route, options) => {
         readFiles(filesMd)
         .then((data) => {
             const links = getLinks(data)
-            if(options.validate){
-            const validatedLlinks = linksTrue(links);
+            const validatedLlinks = linksFalse(links, options.validate);
             resolve(validatedLlinks)
-            } 
             resolve(links)
         })
         .catch((err) =>{
