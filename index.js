@@ -91,7 +91,7 @@ export const readFiles = (arrayFiles) => {
   }
 
 
-  // VERIFICAR EL LINK ES TRUE
+/*---------------------------FUNCION VERIFICA EL TRUE-----------------------------------*/
 export function linksTrue(links) {
   const trueLinks = [];
   links.forEach((link) => {
@@ -112,7 +112,7 @@ export function linksTrue(links) {
 }
 
 
-// VERIFICAR EL LINK ES FALSE
+/*---------------------------FUNCION VERIFICA EL FALSE-----------------------------------*/
 export function linksFalse(links) {
   const falseLinks = [];
   links.forEach((link) => {
