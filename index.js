@@ -1,15 +1,15 @@
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
-import { log } from 'console';
+import axios from 'axios';
 
 /*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
 export const routeExists = (route) => { // parametro
   if(fs.existsSync(route)){
-    console.log(chalk.bold.cyan("El archivo EXISTE!"), 11);
+    //console.log(chalk.bold.cyan("El archivo EXISTE!"), 11);
     return true;
     }else{
-    console.log(chalk.bold.red("El archivo NO EXISTE!"), 12);
+    //console.log(chalk.bold.red("El archivo NO EXISTE!"), 12);
     return false;
     }
 };
@@ -48,6 +48,7 @@ export const isDirectory = (route) => {
         }
       });
     }
+    console.log('allfile', arrayFiles);
     return arrayFiles;
   }
 
@@ -58,6 +59,7 @@ export function getMdExtension(arrayFiles) {
 
 /*---------------------------FUNCION PARA LEER EL DOCUMENTO-----------------------------------------------*/
 export const readFiles = (arrayFiles) => {
+  console.log('deberia llegar array de 2nd', arrayFiles);
   const allFiles = [];
   arrayFiles.forEach((file) => {
     allFiles.push(
@@ -91,31 +93,12 @@ export const readFiles = (arrayFiles) => {
   }
 
 
-/*---------------------------FUNCION VERIFICA EL TRUE-----------------------------------*/
-/*export function linksTrue(links) {
-  const trueLinks = [];
-  links.forEach((link) => {
-    let ruta = path.resolve();
-    if (link.match(/\[.+?\]\(.+?\)/g)) {
-      let linkTrue = link.match(/\[.+?\]\(.+?\)/g);
-      trueLinks.push({
-        href: linkTrue[0].match(/https*?:([^"')\s]+)/)[0],
-        text: linkTrue[0].match(/\[(.*?)\]/)[1],
-        file: ruta,
-        ok: 'ok',
-        HTTP: 'validate'
-      });
-    }
-  });
-  console.log(trueLinks);
-  return trueLinks;
-}*/
-
-
 /*---------------------------FUNCION VERIFICA EL FALSE-----------------------------------*/
 
-export function linksFalse(links, isValidateTrue) {
+export function linksFalse(links) {
+  console.log('deberia llegar el array', links);
   const falseLinks = [];
+
   links.forEach((link) => {
     let ruta = path.resolve();
     if (link.match(/\[.+?\]\(.+?\)/g)) {
@@ -125,41 +108,43 @@ export function linksFalse(links, isValidateTrue) {
         href: linkFalse[0].match(/https*?:([^"')\s]+)/)[0],
         text: linkFalse[0].match(/\[(.*?)\]/)[1],
         file: ruta,
-      }
-
-      if (!isValidateTrue) {
-        falseLinks.push(linkObject)
-      } else {
-        falseLinks.push({...linkObject, ok: 'ok', HTTP: "validate"})
-      }
+      };
+      falseLinks.push(linkObject);
     }
   });
-  console.log(falseLinks, 100);
+  //console.log(falseLinks, 100);
   return falseLinks;
 }
 
+/*---------------------------OBTENER URL-----------------------------------*/
 
-
-/*export function linksFalse(links, isValidateTrue) {
-  const falseLinks = [];
-  links.forEach((link) => {
-    let ruta = path.resolve();
-    if (link.match(/\[.+?\]\(.+?\)/g)) {
-      let linkFalse = link.match(/\[.+?\]\(.+?\)/g);
-      
-      const linkObject = {
-        href: linkFalse[0].match(/https*?:([^"')\s]+)/)[0],
-        text: linkFalse[0].match(/\[(.*?)\]/)[1],
-        file: ruta,
-      }
-
-      if (!isValidateTrue) {
-        falseLinks.push(linkObject)
-      } else {
-        falseLinks.push({...linkObject, ok: 'ok', HTTP: "validate"})
-      }
-    }
+export function getUrl(array) {
+  const url = [];
+  array.forEach((link) => {
+    const sameUrl = link.match(/https*?:([^"')\s]+)/g);
+    url.push(sameUrl);
   });
-  console.log(falseLinks);
-  return falseLinks;
-}*/
+  //console.log(url);
+  return url;
+}
+
+
+/*---------------------------AXIOS-----------------------------------*/
+
+export function peticionHTTP(arrObjs) {
+  const arrayPromises = arrObjs.map((obj)=>{
+    return axios.get(obj.href)
+      .then((response)=>{
+        obj.status = response.status
+        obj.mensaje = response.statusText
+        return obj
+      })
+      .catch((err)=>{
+        obj.status = err.status
+        obj.mensaje = "Fail"
+        return obj
+      })
+    })
+    //console.log(arrayPromises)
+  return Promise.all(arrayPromises)  
+}
