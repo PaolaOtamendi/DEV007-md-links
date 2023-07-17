@@ -1,15 +1,12 @@
 import fs from 'fs'
 import path from 'path'
-import chalk from 'chalk'
 import axios from 'axios';
 
 /*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
 export const routeExists = (route) => { // parametro
   if(fs.existsSync(route)){
-    //console.log(chalk.bold.cyan("El archivo EXISTE!"), 11);
     return true;
     }else{
-    //console.log(chalk.bold.red("El archivo NO EXISTE!"), 12);
     return false;
     }
 };
@@ -18,11 +15,8 @@ export const routeExists = (route) => { // parametro
 /*---------------------------FUNCION PARA CONVERTIR LA RUTA EN ABSOLUTA------------------------------*/
 export const routeAbsolute = (route) => {
   if(!path.isAbsolute(route)){ // Verifica si la ruta es absoluta ! ponerlo 
-    //console.log( path.resolve(route));
     return path.resolve(route)
-    //return route
   }else{
-    // console.log(route);
     return route
   }
 };
@@ -48,7 +42,6 @@ export const isDirectory = (route) => {
         }
       });
     }
-    console.log('allfile', arrayFiles);
     return arrayFiles;
   }
 
@@ -59,7 +52,7 @@ export function getMdExtension(arrayFiles) {
 
 /*---------------------------FUNCION PARA LEER EL DOCUMENTO-----------------------------------------------*/
 export const readFiles = (arrayFiles) => {
-  console.log('deberia llegar array de 2nd', arrayFiles);
+
   const allFiles = [];
   arrayFiles.forEach((file) => {
     allFiles.push(
@@ -88,7 +81,6 @@ export const readFiles = (arrayFiles) => {
         links.push(...linkMatches);
       }
     });
-    // console.table(links);
     return links;
   }
 
@@ -96,7 +88,6 @@ export const readFiles = (arrayFiles) => {
 /*---------------------------FUNCION VERIFICA EL FALSE-----------------------------------*/
 
 export function linksFalse(links) {
-  console.log('deberia llegar el array', links);
   const falseLinks = [];
 
   links.forEach((link) => {
@@ -112,20 +103,7 @@ export function linksFalse(links) {
       falseLinks.push(linkObject);
     }
   });
-  //console.log(falseLinks, 100);
   return falseLinks;
-}
-
-/*---------------------------OBTENER URL-----------------------------------*/
-
-export function getUrl(array) {
-  const url = [];
-  array.forEach((link) => {
-    const sameUrl = link.match(/https*?:([^"')\s]+)/g);
-    url.push(sameUrl);
-  });
-  //console.log(url);
-  return url;
 }
 
 
@@ -133,18 +111,36 @@ export function getUrl(array) {
 
 export function peticionHTTP(arrObjs) {
   const arrayPromises = arrObjs.map((obj)=>{
-    return axios.get(obj.href)
+    return axios
+      .get(obj.href)
       .then((response)=>{
         obj.status = response.status
         obj.mensaje = response.statusText
         return obj
       })
       .catch((err)=>{
-        obj.status = err.status
         obj.mensaje = "Fail"
+        if(err.response){
+          obj.status = err.response.status;
+        }
         return obj
-      })
-    })
-    //console.log(arrayPromises)
+      });
+    });
   return Promise.all(arrayPromises)  
+}
+
+/*---------------------------ESTADISTICAS DE LINKS-----------------------------------*/
+
+export function getStatsFromLinks(arrObjs,isOptionValidate) {
+  return new Promise((resolve, reject) => {
+    const allStats = {
+      total: arrObjs.length,
+      unique: new Set(arrObjs.map((link) => link.href)).size,
+    }
+    if(isOptionValidate){
+      allStats.working = arrObjs.filter( obj => obj.mensaje == 'OK').length;
+      allStats.broken = arrObjs.filter( obj => obj.mensaje == 'Fail').length;
+    }
+    resolve(allStats);
+  });
 }
