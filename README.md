@@ -25,7 +25,7 @@ muchas veces están rotos o y no son válidos, por lo que se ha crea esta
 herramienta usando [Node.js](https://nodejs.org/), la cual analizara los
 archivos encontradados para verificar los links y crear reportes de estadisticas.
 
-![md-links](https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)
+![md-links]([https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/markdown.png))
 
 ## 2. Resumen del proyecto
 
@@ -78,8 +78,8 @@ Cuando se tenga la libreria instalada sera necesario proporcionar los datos en l
 Al ejecutar esta opción donde solo se proporciona la ruta la libreria solo enlistara los links encontrados.
 En caso de no encontrar ruta o no ser proporcionada conrrectamente lanzara error u ruta no encontrada.
 
-![solopath]()
-![noencontrada]()
+![solopath](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/solopath.PNG)
+![noencontrada](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/noencontrada.PNG)
 
 `npx i md-links-pao-otamendi <path> --validate`
 
@@ -88,7 +88,7 @@ Si el link resulta en una redirección a una URL que responde ok, entonces consi
 Si el link resulta en una redirección a una URL que responde fail, entonces consideraremos el link como roto.
 Si no encuentra ningun archivo se lanzara `error`.
 
-![solovalidate]()
+![solovalidate](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/solovalidate.PNG)
 
 `npx i md-links-pao-otamendi <path> --stats`
 
@@ -96,7 +96,7 @@ Al ejecutar esta opción el output (salida) será un texto con estadísticas bá
 la cantidad de links encontrados y no repetidos.
 Si no encuentra ningun archivo se lanzara `error`.
 
-![solostats]()
+![solostats](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/solostats.PNG)
 
 `npx i md-links-pao-otamendi <path> --validate --stats`
 
@@ -104,7 +104,7 @@ Al ejecutar esta opción el output (salida) será un texto con estadísticas bá
 la cantidad de links encontrados y no repetidos, ademas de analizar la cantidad de links rotos u no funcionales.
 Si no encuentra ningun archivo se lanzara `error`.
 
-![validateystats]()
+![validateystats](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/validateystats.PNG)
 
 :desktop_computer: Para ejecutar como:
 
@@ -139,7 +139,8 @@ Cuando se tenga la libreria instalada sera necesario proporcionar los datos en l
 Al ejecutar esta opción donde solo se proporciona la ruta la libreria solo enlistara los links encontrados.
 En caso de no encontrar ruta o no ser proporcionada conrrectamente lanzara error u ruta no encontrada.
 
-![solopath]()
+![solopath](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/solopath.PNG)
+![noencontrada](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/noencontrada.PNG)
 
 `npm cli.js <path> --validate`
 
@@ -148,7 +149,7 @@ Si el link resulta en una redirección a una URL que responde ok, entonces consi
 Si el link resulta en una redirección a una URL que responde fail, entonces consideraremos el link como roto.
 Si no encuentra ningun archivo se lanzara `error`.
 
-![solovalidate]()
+![solovalidate](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/solovalidate.PNG)
 
 `npm cli.js <path> --stats`
 
@@ -156,7 +157,7 @@ Al ejecutar esta opción el output (salida) será un texto con estadísticas bá
 la cantidad de links encontrados y no repetidos.
 Si no encuentra ningun archivo se lanzara `error`.
 
-![solostats]()
+![solostats](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/solostats.PNG)
 
 `npm cli.js <path> --validate --stats`
 
@@ -164,15 +165,15 @@ Al ejecutar esta opción el output (salida) será un texto con estadísticas bá
 la cantidad de links encontrados y no repetidos, ademas de analizar la cantidad de links rotos u no funcionales.
 Si no encuentra ningun archivo se lanzara `error`.
 
-![validateystats]()
+![validateystats](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/validateystats.PNG)
 
 ### 4. Pruebas unitarias JEST.
 Resultados de pruebas realizadas a las funciones puras.
-![jest]()
+![jest](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/jest.PNG)
 
 ### 5. Metodo planificacion y Scrum.
 El metodo para desarrollar el proyecto fue por medio de GitHub Projects, Issues y Milestones.
-![gitprojects]()
+![gitprojects](https://github.com/PaolaOtamendi/DEV007-md-links/blob/e10f25e1a525dfecccdf9248779f37cbbe6d603b/imagenes/gitprojects.PNG)
 
 ### 5. Diagrama de flujo desarrollo de proyecto.
 ![diagrama]()
