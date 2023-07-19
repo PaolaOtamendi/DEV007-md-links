@@ -25,7 +25,7 @@ muchas veces están rotos o y no son válidos, por lo que se ha crea esta
 herramienta usando [Node.js](https://nodejs.org/), la cual analizara los
 archivos encontradados para verificar los links y crear reportes de estadisticas.
 
-![md-links]()
+![md-links](https://github.com/PaolaOtamendi/DEV007-md-links/blob/04c0850418ad7fc11ef11b2c7edfd9ee09ba1990/imagenes/markdown.png)
 
 ## 2. Resumen del proyecto
 
@@ -182,7 +182,9 @@ El metodo para desarrollar el proyecto fue por medio de GitHub Projects, Issues 
 
 
 ### 5. Diagrama de flujo desarrollo de proyecto.
-![diagrama]()
+
+![diagrama](https://github.com/PaolaOtamendi/DEV007-md-links/blob/04c0850418ad7fc11ef11b2c7edfd9ee09ba1990/imagenes/diagrama1.png)
+![diagrama](https://github.com/PaolaOtamendi/DEV007-md-links/blob/04c0850418ad7fc11ef11b2c7edfd9ee09ba1990/imagenes/diagrama2.png)
 
 
 ### 6. Checklist - Requisitos.
