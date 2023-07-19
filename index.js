@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import axios from 'axios';
+import { log } from 'console';
 
 /*---------------------------FUNCION PARA VERIFICAR QUE LA RUTA EXISTE------------------------------*/
 export const routeExists = (route) => { // parametro
@@ -123,6 +124,7 @@ export function peticionHTTP(arrObjs) {
         if(err.response){
           obj.status = err.response.status;
         }
+        console.log(obj, 99);
         return obj
       });
     });
