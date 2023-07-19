@@ -88,7 +88,6 @@ it('deberia leer el contenido del documento', async () => {
   const expectedResults = [
     'Hola soy un documento md y necesito ser leido [Markdown](https://es.wikipedia.org/wiki/Markdown)'
   ];
-    console.log(expectedResults, 100);
 
   const actualResults = await readFiles(arrayFiles);
   expect(actualResults).toEqual(expectedResults);

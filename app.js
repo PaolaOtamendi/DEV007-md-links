@@ -8,7 +8,6 @@ export const mdlinks = (route, options) => {
         const isExists = routeExists(route)
     if (isExists) {
         routeAbsolute(route);
-        console.log(routeAbsolute(route), 1);
         const archivos = isDirectory(route);
         const filesMd = getMdExtension(archivos);
         readFiles(filesMd)

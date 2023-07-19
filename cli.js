@@ -15,6 +15,7 @@ const options = {
 mdlinks(document, options)
 .then((links)=>{
     if (options.validate && options.stats) {
+        console.log(chalk.bold.bgWhiteBright('Ejecutado con exito --validate y --stats'));
         console.log(chalk.bold.blue('Total: ' + links.total))
         console.log(chalk.bold.blue('Unique: ' + links.unique))
         console.log(chalk.bold.green('Working: ' + links.working))
@@ -22,17 +23,20 @@ mdlinks(document, options)
     }
 
     else if(options.validate){
+        console.log(chalk.bold.bgWhiteBright('Ejecutado con exito --validate, no --stats'));
         links.forEach(link => {
         console.log(chalk.bold.gray(link.file + ' ' + link.href + ' ' + link.mensaje + ' ' + link.status + ' ' + link.text))
         });
     }
 
     else if(options.stats) {
+        console.log(chalk.bold.bgWhiteBright('Ejecutado con exito --stats, no --validate'));
         console.log(chalk.bold.green('Total: ' + links.total))
         console.log(chalk.bold.green('Unique: ' + links.unique))
     }
 
     else{
+        console.log(chalk.bold.bgWhiteBright('Ruta obtenida'));
         links.forEach(link => {
         console.log(chalk.bold.yellow(link.file + ' ' + link.href + ' ' + link.text))
         });
