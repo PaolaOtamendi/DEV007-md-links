@@ -72,7 +72,7 @@ export const readFiles = (arrayFiles) => {
 
 /*---------------------------FUNCION PARA LEER LOS LINKS DEL DOCUMENTO-----------------------------------*/
 
-  export function getLinks(array) {
+  export const getLinks = (array) => {
     const links = [];
     const regex = /\[.+?\]\(.+?\)/g;
     array.forEach((link) => {
@@ -87,7 +87,7 @@ export const readFiles = (arrayFiles) => {
 
 /*---------------------------FUNCION VERIFICA EL FALSE-----------------------------------*/
 
-export function linksFalse(links) {
+export const linksFalse = (links) => {
   const falseLinks = [];
 
   links.forEach((link) => {
@@ -109,7 +109,7 @@ export function linksFalse(links) {
 
 /*---------------------------AXIOS-----------------------------------*/
 
-export function peticionHTTP(arrObjs) {
+export const peticionHTTP = (arrObjs) => {
   const arrayPromises = arrObjs.map((obj)=>{
     return axios
       .get(obj.href)
@@ -131,7 +131,7 @@ export function peticionHTTP(arrObjs) {
 
 /*---------------------------ESTADISTICAS DE LINKS-----------------------------------*/
 
-export function getStatsFromLinks(arrObjs,isOptionValidate) {
+export const getStatsFromLinks = (arrObjs,isOptionValidate) => {
   return new Promise((resolve) => {
     const allStats = {
       total: arrObjs.length,
